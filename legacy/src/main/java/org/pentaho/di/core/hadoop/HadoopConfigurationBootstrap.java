@@ -418,4 +418,22 @@ public class HadoopConfigurationBootstrap implements KettleLifecycleListener, Ac
     }
     return properties;
   }
+  
+  /**
+   * Iterates through all registered listeners and calls for
+   * AuthenticationMappingHadoopConfigurationListener.onConfigurationPrepared()
+   */
+  public static void notifyOnConfigurationPrepared( HadoopConfiguration hadoopConfiguration ) {
+
+    if( hadoopConfiguration == null ){
+      return;
+    }
+
+    for ( HadoopConfigurationListener listener : getInstance().hadoopConfigurationListeners ) {
+
+      if( listener instanceof AuthenticationMappingHadoopConfigurationListener ) {
+        ( (AuthenticationMappingHadoopConfigurationListener) listener ).onConfigurationPrepared( hadoopConfiguration);
+      }
+    }
+  }
 }
